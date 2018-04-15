@@ -18,27 +18,55 @@ import cn.edu.dgut.util.CloseUtil;
  */
 public class MicroServer {
 	private boolean isRunning = true;
-	private List<Socket> clientList = null;
+	private List<MicroDispatcher> dispatcherList;
 	
 	private ServerSocket server;
 	
 	private static MicroServer instance = null;
 	
+	private MicroServer(){
+		dispatcherList = new LinkedList<MicroDispatcher>();		
+	}
+	
+	
 	static{
 		instance = new MicroServer();
 	}
 	
+	
+	/*************************************************************/
+	
+		/**
+		 * 将原有的 socketlist 改为 dispatcherList 
+		 * 原因：
+		 * 		1. 存 socket 是没有意义的
+		 * 		2. 与客户端对接是在 request 和 response
+		 * 		3. dispatcher 中保存有这两个类
+		 *  所以应该操作 dispatcher 而不是 socket
+		 *  
+		 *  verson 1.2
+		 */
+	/**
+	 * get dispatcher list
+	 * @return
+	 */
+	public List<MicroDispatcher> getDispatcherList() {
+		return dispatcherList;
+	}
+	
+	public boolean addDispatcher(MicroDispatcher dispatcher){
+		return dispatcherList.add(dispatcher);
+	}
+	
+	public boolean reomveDispatcher(MicroDispatcher dispatcher){
+		return dispatcherList.remove(dispatcher);
+	}
+	
+	
+	/*************************************************************/
+	
 	public static MicroServer getInstance() {
 		return instance;
-	}
-	
-	
-	private MicroServer() {
-		clientList = new LinkedList<Socket>();
-	}
-	
-	public List<Socket> getClientList() {
-		return clientList;
 	}
 	
 	
@@ -54,12 +82,14 @@ public class MicroServer {
 	
 	private void receive(){
 		Socket client = null;
+		MicroDispatcher dispatcher;
 		while(isRunning){
 			try {
 				client = server.accept();
 				ServerContext.serviceTimes++;
-				clientList.add(client);
-				new Thread(new MicroDispatcher(client)).start();
+				dispatcher = new MicroDispatcher(client);
+				new Thread(dispatcher).start();
+				
 			} catch (IOException e) {
 				stopServer();
 			}

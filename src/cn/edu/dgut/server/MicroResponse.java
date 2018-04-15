@@ -93,7 +93,7 @@ public class MicroResponse {
 			/*******************************************************/
 				/**
 				 * 修改返回值形式，
-				 * 		verson 1.2 返回时间类型为 long   
+				 * 		verson 1.0 返回时间类型为 long   
 				 * 		verson 1.2 返回时间类型为 Date Format --  java.sql.Timestamp.toString()
 				 * verson 1.2
 				 */

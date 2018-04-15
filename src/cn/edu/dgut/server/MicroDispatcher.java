@@ -1,7 +1,6 @@
 package cn.edu.dgut.server;
 
 import java.net.Socket;
-
 import cn.edu.dgut.util.CloseUtil;
 
 public class MicroDispatcher implements Runnable{
@@ -20,6 +19,8 @@ public class MicroDispatcher implements Runnable{
 	@Override
 	public void run() {
 		while(req.isAlive){
+			
+			
 			/********************************************/
 				/**
 				 * 删除不必要的异常抛出导致的 try catch
@@ -30,6 +31,8 @@ public class MicroDispatcher implements Runnable{
 				Servlet.getInstance().service(req, rep);
 			}
 			/********************************************/
+			
+			
 			try {
 				Thread.sleep(40);
 			} catch (InterruptedException e) {
@@ -38,7 +41,7 @@ public class MicroDispatcher implements Runnable{
 			}
 		}
 		CloseUtil.closeSocket(client);
-		MicroServer.getInstance().getClientList().remove(client);
+		MicroServer.getInstance().reomveDispatcher(this);
 	}
 	
 }

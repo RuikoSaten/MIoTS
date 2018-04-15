@@ -1,7 +1,25 @@
 
 
+
+
 /*********************************/
-	@verson 1.1
+	@version 1.2		
+	修复部分已知bug
+	1. 更改为心跳包以及转发功能预留的 clientList 存储的对象
+		version 1.0 ： 存储 socket 对象
+		version 1.2： 存储 dispatcher 对象
+	2. 搭建了一个日志外壳 内容未实现
+		运行日志 RunLogsTask
+		异常日志 ExceptionLogsTask
+		错误日志 ErrorLogsTask
+	3. 为另外两种形式请求数据包提供一个 server error 响应
+		对应请求 method b 
+				method c
+/*********************************/
+
+
+/*********************************/
+	@version 1.1
 	修复了部分已知 bug
 	0.移植到 windows server 2008 系统
 	1.改写 method a 对应调用的 parseParams 解包方法
@@ -12,7 +30,7 @@
 
 
 /*********************************/
-	@verson 1.0
+	@version 1.0
 	搭建了一个基础框架
 	目前实现了：
 				1.数据接收
