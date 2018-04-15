@@ -1,6 +1,8 @@
 package cn.edu.dgut.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -105,14 +107,21 @@ public class ServerContext {
 	 * @author Administrator
 	 *
 	 */
-	private class GP2Engine{
+	public class GP2Engine{
 		Timer  timer =new Timer(true);   
 		RunLogsTask runLogsTask = new RunLogsTask();
-		//timer.schedule(task,0,30*60*1000);
+		ErrorLogsTask errorLogsTask = new ErrorLogsTask();
+		ExceptionLogsTask exceptionLogsTask = new ExceptionLogsTask();
 		
+		
+		/**
+		 * 每天运行一次 运行日志类的 run 方法。
+		 * @return
+		 */
 		public boolean startRunLogsTask(){
+			runLogsTask.taskRunning = true;
 			timer.schedule(runLogsTask, 0, 24*60*60*1000);
-			return runLogsTask.taskRunning = true;
+			return runLogsTask.taskRunning;
 		}
 		
 		public boolean stopRunLogsTask(){
@@ -137,8 +146,8 @@ public class ServerContext {
 			
 			@Override
 			public void run() {
-				//将日志写入sql
 				if(taskRunning){
+					//将日志写入sql
 					
 				}
 			}
@@ -146,6 +155,140 @@ public class ServerContext {
 		}
 		
 		
+		/**
+		 * 每 10 分钟运行一次异常类的  run 方法
+		 * @return
+		 */
+		public boolean startExceptionLogsTask(){
+			exceptionLogsTask.taskRunning = true;
+			timer.schedule(exceptionLogsTask, 0, 10*60*1000);
+			return exceptionLogsTask.taskRunning;
+		}
+		
+		
+		/**
+		 * 停止运行异常任务
+		 * @return
+		 */
+		public boolean stopExceptionLogsTask(){
+			exceptionLogsTask.taskRunning = false;
+			return exceptionLogsTask.cancel();
+		}
+		
+		
+		/**
+		 * 向 exceptionList 写入异常信息
+		 * @param exceptionInfo
+		 */
+		public void throwsException(String exceptionInfo){
+			exceptionLogsTask.exceptionList.add(exceptionInfo);
+		}
+		
+		/**
+		 * 向 exceptionList 写入异常信息列表
+		 * @param exceptionInfo
+		 */
+		public void throwsException(List<String> exceptionInfoList){
+			exceptionLogsTask.exceptionList.addAll(exceptionInfoList);
+		}
+		
+		
+		/**
+		 * 异常日志类
+		 * 		负责将异常信息写入数据库
+		 * 		主要记录
+		 * 				1. 空指针异常
+		 * 				2. 数据包异常
+		 * 				
+		 * @author Administrator
+		 *
+		 */
+		private class ExceptionLogsTask extends TimerTask {
+			List<String> exceptionList = new ArrayList<String>();
+			boolean taskRunning;
+			
+			
+			@Override
+			public void run() {
+				if(taskRunning){
+					//遍历 list 将日志写入 sql 
+					
+					
+					
+					
+					
+					exceptionList.clear();
+				}
+			}
+			
+		}
+		
+		
+		
+		/**
+		 * 每 10 分钟运行一次错误类的  run 方法
+		 * @return
+		 */
+		public boolean startErrorLogsTask(){
+			errorLogsTask.taskRunning = true;
+			timer.schedule(errorLogsTask, 0, 10*60*1000);
+			return errorLogsTask.taskRunning;
+		}
+		
+		
+		/**
+		 * 停止运行错误任务
+		 * @return
+		 */
+		public boolean stopErrorLogsTask(){
+			errorLogsTask.taskRunning = false;
+			return errorLogsTask.cancel();
+		}
+		
+		/**
+		 * 添加错误信息
+		 * @param errorInfo
+		 */
+		public void addErrorInfo(String errorInfo){
+			errorLogsTask.errorList.add(errorInfo);
+		}
+		
+		
+		/**
+		 * 添加错误信息列表
+		 * @param errorInfoList
+		 */
+		public void addErrorInfo(List<String> errorInfoList){
+			errorLogsTask.errorList.addAll(errorInfoList);
+		}
+		
+		
+		
+		
+		/**
+		 * 错误日志类
+		 * 		负责将错误信息写入数据库
+		 * 		主要记录
+		 * 				1. 用户名、密码匹配错误
+		 * 				2. ....
+		 * @author Administrator
+		 *
+		 */
+		private class ErrorLogsTask extends TimerTask{
+			List<String>errorList = new ArrayList<String>();
+			boolean taskRunning; 
+			
+			@Override
+			public void run() {
+				if(taskRunning){
+					
+					
+					
+					errorList.clear();
+				}
+				
+			}
+		}
 		
 	}
 	
