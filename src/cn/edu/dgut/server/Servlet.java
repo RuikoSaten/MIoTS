@@ -22,7 +22,7 @@ public class Servlet {
 	}
 	
 	
-	public void service(MicroRequest req,MicroResponse rep) throws Exception{
+	public void service(MicroRequest req,MicroResponse rep){
 		switch(req.method){
 			case "a":
 				insert(req,rep);
@@ -49,7 +49,7 @@ public class Servlet {
 	 * 查询数据
 	 * 对应method d
 	 */
-	public void select(MicroRequest req, MicroResponse rep) throws Exception {
+	public void select(MicroRequest req, MicroResponse rep){
 		if(req.isClient()){
 			DataForm data = req.getClientRequestData();
 			String msg;
@@ -61,11 +61,27 @@ public class Servlet {
 
 				
 				msg = rep.createMessage(data);
-				if(msg != null){
+				
+				/************************************************/
+				/**
+				 * 修改返回值，修复当 msg.equals("") 时没有返回正文
+				 * 也就是
+				 * else{
+				 *	rep.append("null");
+				 *	}
+				 * 不起作用
+				 * verson 1.2 
+				 * 	
+				 */
+				if(msg != null && !msg.trim().equals("")){
+					
+					
 					rep.append(msg);
 				}else{
 					rep.append("null");
 				}
+				/************************************************/
+				
 				rep.pushToClient();
 			}else{
 				error(req,rep);
@@ -76,7 +92,7 @@ public class Servlet {
 	}
 	
 	
-	public void insert(MicroRequest req, MicroResponse rep) throws Exception {
+	public void insert(MicroRequest req, MicroResponse rep){
 		if(req.isClient()){
 			rep.append(req.method).append(BLANK).append(req.getId())
 			.append(BLANK).append(req.getDevice())
@@ -92,7 +108,7 @@ public class Servlet {
 	
 	
 	
-	public void error(MicroRequest req, MicroResponse rep) throws Exception {
+	public void error(MicroRequest req, MicroResponse rep){
 		rep.clearContent();
 		rep.append("error");
 		rep.pushToClient();
@@ -100,15 +116,32 @@ public class Servlet {
 	}
 	
 	
-	public void delete(MicroRequest req, MicroResponse rep) throws Exception {
-		
+	public void delete(MicroRequest req, MicroResponse rep){
+		if(req.isClient()){
+			rep.append(req.method).append(BLANK).append(req.getId())
+			.append(BLANK).append(req.getDevice())
+			.append(BLANK).append(req.isAlive())
+			.append(BLANK).append("server error : can not delete any data").append(CRLF);
+			
+			rep.pushToClient();
+		}else{
+			error(req,rep);
+		}
 		
 	}
 	
 	
-	public void update(MicroRequest req, MicroResponse rep) throws Exception {
-		
-		
+	public void update(MicroRequest req, MicroResponse rep){
+		if(req.isClient()){
+			rep.append(req.method).append(BLANK).append(req.getId())
+			.append(BLANK).append(req.getDevice())
+			.append(BLANK).append(req.isAlive())
+			.append(BLANK).append("server error : can not update any data").append(CRLF);
+			
+			rep.pushToClient();
+		}else{
+			error(req,rep);
+		}
 	}
 	
 }

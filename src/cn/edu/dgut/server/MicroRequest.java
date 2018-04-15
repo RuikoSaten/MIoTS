@@ -431,7 +431,10 @@ public class MicroRequest {
 			dataForm.setTime(data.getTime());
 			DataFormDao.insert(dataForm);
 		}
+		
+		//记录数据点个数
 		ServerContext.IncremeNtnumberOfData(paramList.size());
+		//记录数据包个数
 		ServerContext.IncrementNumberOfMessage();
 		
 		//将数据写到数据库之后要及时清空，不然下一次就会产生一个重复的数据

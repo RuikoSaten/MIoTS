@@ -19,26 +19,26 @@ public class MicroDispatcher implements Runnable{
 
 	@Override
 	public void run() {
-		int i = 0;
 		while(req.isAlive){
-			System.out.println("第"+i+"次");
+			/********************************************/
+				/**
+				 * 删除不必要的异常抛出导致的 try catch
+				 * 
+				 * verson 1.2
+				 */
 			if(req.parseMessage()){
-				try {
-					Servlet.getInstance().service(req, rep);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				Servlet.getInstance().service(req, rep);
 			}
+			/********************************************/
 			try {
 				Thread.sleep(40);
 			} catch (InterruptedException e) {
 				System.out.println("Thread.sleep error");
 				break;
 			}
-			i++;
 		}
 		CloseUtil.closeSocket(client);
-		
+		MicroServer.getInstance().getClientList().remove(client);
 	}
 	
 }

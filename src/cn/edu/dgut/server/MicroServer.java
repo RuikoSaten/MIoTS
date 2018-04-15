@@ -8,15 +8,37 @@ import java.util.List;
 
 import cn.edu.dgut.util.CloseUtil;
 
+
+/**
+ * server 负责监听端口
+ * @version	1.2 修改为单例模式
+ * @since 1.0 
+ * @author Administrator
+ *
+ */
 public class MicroServer {
 	private boolean isRunning = true;
 	private List<Socket> clientList = null;
 	
 	private ServerSocket server;
 	
+	private static MicroServer instance = null;
 	
-	public MicroServer() {
+	static{
+		instance = new MicroServer();
+	}
+	
+	public static MicroServer getInstance() {
+		return instance;
+	}
+	
+	
+	private MicroServer() {
 		clientList = new LinkedList<Socket>();
+	}
+	
+	public List<Socket> getClientList() {
+		return clientList;
 	}
 	
 	
@@ -48,6 +70,14 @@ public class MicroServer {
 		isRunning = false;
 		CloseUtil.closeSocket(server);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
