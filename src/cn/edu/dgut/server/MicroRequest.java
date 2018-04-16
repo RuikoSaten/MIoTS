@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,6 +54,8 @@ public class MicroRequest {
 //	private Map<String,List<DataBean>> paramMap;
 	private List<StreamData> paramList;
 	
+	
+	public long lastPackageTime = 0;
 	
 	
 	public String method;
@@ -161,6 +164,9 @@ public class MicroRequest {
 		paramList = new ArrayList<StreamData>();
 		
 		/*******************************************/
+		
+		lastPackageTime = System.currentTimeMillis();
+		
 	}
 	
 	
@@ -284,9 +290,23 @@ public class MicroRequest {
 						+ "([0-9]{1,8})("+BLANK+")"			//group(7) == device
 						+ "([TF])("+BLANK+")"				//group(9) == isAlive
 						+ "(len=)([0-9]{1,4})"				//group(12) == len
-						+ "(\r\n\r\n)");					
+				/************************************/		
+						
+						/* + "(\r\n\r\n)" */);		
+					/**
+					 * version 1.2 修改 
+					 * 			按原有匹配方式，
+					 * 			当客户端发送空白正文包过来的时候匹配失败
+					 */
+		
+				/************************************/
 		Matcher m = requestPattern.matcher(requestInfo);
+	//	System.out.println("requestInfo:"+requestInfo);
+	//	System.out.println("start pattern");
 		if(m.find()){
+			
+//			System.out.println("requestInfo matcher");
+			
 			method = m.group(1);
 			id = m.group(3);
 			pwd = m.group(5);
@@ -304,6 +324,9 @@ public class MicroRequest {
 			}else{
 				//这个的确是客户端发来的数据包
 				isClient = true;
+				//更新数据包时间
+				this.lastPackageTime = System.currentTimeMillis();
+				System.out.println("接收到一个数据包"+new Date(this.lastPackageTime));
 			}
 			
 			if(Integer.valueOf(m.group(12)) > 0){

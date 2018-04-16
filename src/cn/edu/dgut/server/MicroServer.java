@@ -80,16 +80,22 @@ public class MicroServer {
 		}
 	}
 	
+	/**
+	 * 在这里开始整个系统的服务
+	 * 
+	 */
 	private void receive(){
 		Socket client = null;
 		MicroDispatcher dispatcher;
+		HeartbeatThread.getInstance().startHeartbeatTask();
+		
 		while(isRunning){
 			try {
 				client = server.accept();
 				ServerContext.serviceTimes++;
 				dispatcher = new MicroDispatcher(client);
 				new Thread(dispatcher).start();
-				
+				dispatcherList.add(dispatcher);
 			} catch (IOException e) {
 				stopServer();
 			}

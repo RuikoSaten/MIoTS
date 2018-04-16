@@ -9,7 +9,17 @@ import java.net.Socket;
 import cn.edu.dgut.model.DataForm;
 import cn.edu.dgut.util.CloseUtil;
 
+
+
+/**
+ * 构建响应包的类
+ * @author Administrator
+ *
+ */
 public class MicroResponse {
+	public static final String CRLF = "\r\n";
+	public static final String BLANK = " ";
+	
 	
 	//响应报文
 	protected StringBuilder content;
@@ -111,6 +121,12 @@ public class MicroResponse {
 		content.delete(0, content.length());
 	}
 	
-	
+	public boolean sendHeartbeat(){
+		if(this.content.length() == 0){
+			this.append("Heartbeat").append(CRLF);
+			this.pushToClient();
+		}
+		return false;
+	}
 	
 }

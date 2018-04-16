@@ -48,6 +48,7 @@ public class CloseUtil {
 	public static void closeSocket(Socket socket){
 		try {
 			if(socket != null){
+				System.out.println("close "+socket);
 				socket.close();
 			}
 		} catch (IOException e) {

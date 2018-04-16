@@ -9,7 +9,18 @@ public class MicroDispatcher implements Runnable{
 	private MicroRequest req;
 	private MicroResponse rep;
 	
-	
+	public Socket getClient() {
+		return client;
+	}
+
+	public MicroRequest getReq() {
+		return req;
+	}
+
+	public MicroResponse getRep() {
+		return rep;
+	}
+
 	public MicroDispatcher(Socket client){
 		this.client = client;
 		req = new MicroRequest(client);
@@ -32,16 +43,17 @@ public class MicroDispatcher implements Runnable{
 			}
 			/********************************************/
 			
-			
+			System.out.println("req.isAlive"+req.isAlive);
 			try {
-				Thread.sleep(40);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				System.out.println("Thread.sleep error");
 				break;
 			}
 		}
-		CloseUtil.closeSocket(client);
-		MicroServer.getInstance().reomveDispatcher(this);
+		//System.out.println("ÒÆ³ý"+this);
+		//MicroServer.getInstance().reomveDispatcher(this);
+		//CloseUtil.closeSocket(client);
 	}
 	
 }
