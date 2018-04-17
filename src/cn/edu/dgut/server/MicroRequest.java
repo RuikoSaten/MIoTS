@@ -230,7 +230,7 @@ public class MicroRequest {
 	private boolean HasCompleteMessage() {
 		String temp =new String(data,0,dataOffset);
 		
-		System.out.println("接收到的数据："+temp);
+//		System.out.println("接收到的数据："+temp);
 		
 		Matcher m = LengthPattern.matcher(temp);
 		if(m.find()){
@@ -326,13 +326,13 @@ public class MicroRequest {
 				isClient = true;
 				//更新数据包时间
 				this.lastPackageTime = System.currentTimeMillis();
-				System.out.println("接收到一个数据包"+new Date(this.lastPackageTime));
+//				System.out.println("接收到一个数据包"+new Date(this.lastPackageTime));
 			}
 			
 			if(Integer.valueOf(m.group(12)) > 0){
 				String paramString = requestInfo.substring(requestInfo.indexOf("\r\n\r\n")+4);
 				
-				System.out.println("paramString:"+paramString);
+//				System.out.println("paramString:"+paramString);
 				
 				
 				switch(method){

@@ -1,5 +1,6 @@
 package cn.edu.dgut.server;
 
+import java.io.IOException;
 import java.net.Socket;
 import cn.edu.dgut.util.CloseUtil;
 
@@ -36,14 +37,29 @@ public class MicroDispatcher implements Runnable{
 				/**
 				 * 删除不必要的异常抛出导致的 try catch
 				 * 
-				 * verson 1.2
+				 * version 1.2
 				 */
 			if(req.parseMessage()){
 				Servlet.getInstance().service(req, rep);
 			}
 			/********************************************/
 			
-			System.out.println("req.isAlive"+req.isAlive);
+			/********************************************/
+			
+				/**
+				 * 添加一个是否由客户端主动关闭的判断
+				 * version 1.2
+				 * since 1.2
+				 */
+			try {
+				client.sendUrgentData(0xff);
+			} catch (IOException e1) {
+				//System.out.println("breaking");
+				break;
+			}
+			//System.out.println("req.isAlive"+req.isAlive);
+			/********************************************/
+			
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -51,9 +67,9 @@ public class MicroDispatcher implements Runnable{
 				break;
 			}
 		}
-		//System.out.println("移除"+this);
-		//MicroServer.getInstance().reomveDispatcher(this);
-		//CloseUtil.closeSocket(client);
+	//	System.out.println("移除"+this);
+		MicroServer.getInstance().reomveDispatcher(this);
+		CloseUtil.closeSocket(client);
 	}
 	
 }
