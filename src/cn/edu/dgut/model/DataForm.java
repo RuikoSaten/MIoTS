@@ -19,15 +19,15 @@ import java.sql.Timestamp;
 public class DataForm {
 	
 	private int id;
-	private String user_id;
+	private int user_id = 0;
 	private String stream;
 	private String data;
 	private String device;
 	private Timestamp time;
-	public String getUser_id() {
+	public int getUser_id() {
 		return user_id;
 	}
-	public void setUser_id(String user_id) {
+	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
 	public String getStream() {
@@ -57,14 +57,14 @@ public class DataForm {
 	public int getId() {
 		return id;
 	}
-	public DataForm(String user_id, String stream, String data, String device) {
+	public DataForm(int user_id, String stream, String data, String device) {
 		super();
 		this.user_id = user_id;
 		this.stream = stream;
 		this.data = data;
 		this.device = device;
 	}
-	public DataForm(String user_id, String stream, String data, String device, Timestamp time) {
+	public DataForm(int user_id, String stream, String data, String device, Timestamp time) {
 		super();
 		this.user_id = user_id;
 		this.stream = stream;
@@ -72,13 +72,13 @@ public class DataForm {
 		this.device = device;
 		this.time = time;
 	}
-	public DataForm(String user_id, String stream, String device) {
+	public DataForm(int user_id, String stream, String device) {
 		super();
 		this.user_id = user_id;
 		this.stream = stream;
 		this.device = device;
 	}
-	public DataForm(String user_id, String device) {
+	public DataForm(int user_id, String device) {
 		super();
 		this.user_id = user_id;
 		this.device = device;

@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 /**
  * this is a bean for idForm 
  * 
- * Id										type -- String	16
+ * Id										type -- int		11
  * pwd 										type -- String	16
  * name										type -- String 	32
  * registerTime								type -- timestamp
@@ -16,14 +16,14 @@ import java.sql.Timestamp;
  */
 public class IdForm {
 	
-	private String id;
+	private int id = 0;
 	private String pwd;
 	private String name;
 	private Timestamp registerTime;
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getPwd() {
@@ -47,20 +47,20 @@ public class IdForm {
 	public IdForm() {
 		super();
 	}
-	public IdForm(String id, String pwd, String name, Timestamp registerTime) {
+	public IdForm(int id, String pwd, String name, Timestamp registerTime) {
 		super();
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
 		this.registerTime = registerTime;
 	}
-	public IdForm(String id, String pwd, String name) {
+	public IdForm(int id, String pwd, String name) {
 		super();
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
 	}
-	public IdForm(String id, String pwd) {
+	public IdForm(int id, String pwd) {
 		super();
 		this.id = id;
 		this.pwd = pwd;

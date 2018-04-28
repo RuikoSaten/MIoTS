@@ -17,15 +17,15 @@ import java.sql.Timestamp;
 public class StreamForm {
 	
 	private int id;
-	private String user_id;
+	private int user_id = 0;
 	private String stream;
 	private String unit;
 	private String device;
 	private Timestamp createTime;
-	public String getUser_id() {
+	public int getUser_id() {
 		return user_id;
 	}
-	public void setUser_id(String user_id) {
+	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
 	public String getStream() {
@@ -55,7 +55,7 @@ public class StreamForm {
 	public int getId() {
 		return id;
 	}
-	public StreamForm(String user_id, String stream, String unit, String device, Timestamp createTime) {
+	public StreamForm(int user_id, String stream, String unit, String device, Timestamp createTime) {
 		super();
 		this.user_id = user_id;
 		this.stream = stream;
@@ -63,7 +63,7 @@ public class StreamForm {
 		this.device = device;
 		this.createTime = createTime;
 	}
-	public StreamForm(String user_id, String stream, String device) {
+	public StreamForm(int user_id, String stream, String device) {
 		super();
 		this.user_id = user_id;
 		this.stream = stream;
@@ -72,7 +72,7 @@ public class StreamForm {
 	public StreamForm() {
 		super();
 	}
-	public StreamForm(String user_id, String stream, String unit, String device) {
+	public StreamForm(int user_id, String stream, String unit, String device) {
 		super();
 		this.user_id = user_id;
 		this.stream = stream;

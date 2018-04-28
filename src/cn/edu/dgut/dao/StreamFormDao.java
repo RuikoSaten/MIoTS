@@ -36,7 +36,7 @@ public class StreamFormDao {
 		if(streamForm == null){
 			return 0;
 		}
-		if(streamForm.getUser_id() == null ||
+		if(streamForm.getUser_id() == 0 ||
 				streamForm.getDevice() == null || 
 				streamForm.getStream() == null){
 			return 0;
@@ -53,7 +53,7 @@ public class StreamFormDao {
 		PreparedStatement ps = null;
 		try {
 			ps = SQLContext.connection.prepareStatement(sql);
-			ps.setString(1, streamForm.getUser_id());
+			ps.setInt(1, streamForm.getUser_id());
 			ps.setString(2, streamForm.getStream());
 			ps.setString(3, streamForm.getUnit());
 			ps.setString(4, streamForm.getDevice());
@@ -77,7 +77,7 @@ public class StreamFormDao {
 		if(streamForm == null){
 			return 0;
 		}
-		if(streamForm.getUser_id() == null ||
+		if(streamForm.getUser_id() == 0 ||
 				streamForm.getDevice() == null || 
 				streamForm.getStream() == null){
 			return 0;
@@ -90,7 +90,7 @@ public class StreamFormDao {
 		
 		try {
 			ps = SQLContext.connection.prepareStatement(sql);
-			ps.setString(1, streamForm.getUser_id());
+			ps.setInt(1, streamForm.getUser_id());
 			ps.setString(2, streamForm.getDevice());
 			ps.setString(3, streamForm.getStream());
 			

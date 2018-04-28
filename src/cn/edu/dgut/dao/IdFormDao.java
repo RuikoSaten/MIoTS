@@ -37,7 +37,7 @@ public class IdFormDao {
 		if(idForm == null){
 			return 0;
 		}
-		if(idForm.getId() == null || idForm.getPwd() == null){
+		if(idForm.getId() == 0 || idForm.getPwd() == null){
 			return 0;
 		}
 		
@@ -47,7 +47,7 @@ public class IdFormDao {
 		ResultSet rs = null;
 		try {
 			ps = SQLContext.connection.prepareStatement(sql);
-			ps.setString(1, idForm.getId());
+			ps.setInt(1, idForm.getId());
 			ps.setString(2, idForm.getPwd());
 			rs = ps.executeQuery();
 			

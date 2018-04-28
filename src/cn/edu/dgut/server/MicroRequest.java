@@ -59,7 +59,7 @@ public class MicroRequest {
 	
 	
 	public String method;
-	private String id = "";
+	private int id = 0;
 	private String pwd = "";
 	private boolean isClient = false;
 	public static final String CRLF = "\r\n";
@@ -125,7 +125,7 @@ public class MicroRequest {
 		return device;
 	}
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -308,7 +308,7 @@ public class MicroRequest {
 //			System.out.println("requestInfo matcher");
 			
 			method = m.group(1);
-			id = m.group(3);
+			id = Integer.valueOf(m.group(3));
 			pwd = m.group(5);
 			device = m.group(7);
 			isAlive = m.group(9).equals("T")?true:false;
@@ -319,7 +319,7 @@ public class MicroRequest {
 //			System.out.println("device:"+device);
 //			System.out.println("isAlive:"+isAlive);
 			//完成身份校验，如果没找到这个id pwd 那就不用解析了
-			if(IdFormDao.select(new IdForm(id,pwd)) == 0){
+			if(IdFormDao.select(new IdForm(Integer.valueOf(id),pwd)) == 0){
 				return ;
 			}else{
 				//这个的确是客户端发来的数据包
@@ -398,40 +398,7 @@ public class MicroRequest {
 		 * 
 		 * 	ps:真不应该熬夜写出 zhu 一样的代码
 		 */
-//		List<DataBean> valueList = null;
-//		List<String> paramList = new ArrayList<String>();
-//		while(m.find()){
-//			String stream = m.group(1);
-//			if(!paramList.contains(stream)){
-//				paramList.add(stream);
-//			}
-//			if(!paramMap.containsKey(stream)){
-//				paramMap.put(stream, new ArrayList<DataBean>());
-//			}
-//			valueList = paramMap.get(stream);
-//			//一个 bean 存放一个数据 这个数据从属于 device
-//			long longtime;
-//			valueList.add(new DataBean(m.group(3),new Timestamp((longtime=Long.valueOf(m.group(5)))
-//					==0?System.currentTimeMillis():longtime)));
-//			
-//			
-//			//System.out.println(m.group(1)+m.group(3)+m.group(5));
-//			//解析完成后要写入到数据库
-//			////1.去帐号密码表单匹配id pwd
-//			//2.匹配的话将数据写入到id表里
-//		}
-//		if(valueList != null){
-//			for(String stream:paramList){
-//				DataForm dataForm = new DataForm(id,stream,device);			
-//				DataFormDao dao = DataFormDao.getInstance();
-//				for(DataBean data:valueList){
-//					
-//					dataForm.setData(data.getValue());
-//					dataForm.setTime(data.getTimestamp());
-//					dao.insert(dataForm);
-//				}				
-//			}
-//		}
+
 		
 		long time = 0;
 		while(m.find()){
@@ -439,12 +406,6 @@ public class MicroRequest {
 			paramList.add(new StreamData(m.group(1), 
 					m.group(3), 
 					time != 0L ? new Timestamp(time) : JDBCUtil.now()));
-			
-			
-//			System.out.println("stream:"+m.group(1));
-//			System.out.println("data:"+m.group(3));
-//			System.out.println("time:"+(time != 0L ? new Timestamp(time) : JDBCUtil.now()));
-			
 		}
 		
 		DataForm dataForm = new DataForm(id,device);	

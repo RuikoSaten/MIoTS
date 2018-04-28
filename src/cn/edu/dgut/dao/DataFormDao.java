@@ -40,7 +40,7 @@ public class DataFormDao {
 			return 0;
 		}
 		if(data.getData() == null || data.getDevice() == null ||
-				data.getStream() == null || data.getUser_id() == null){
+				data.getStream() == null || data.getUser_id() == 0){
 			return 0;
 		}
 		if(data.getTime() == null){
@@ -51,7 +51,7 @@ public class DataFormDao {
 		int i = 0;
 		try {
 			ps = SQLContext.connection.prepareStatement(sql);
-			ps.setString(1, data.getUser_id());
+			ps.setInt(1, data.getUser_id());
 			ps.setString(2, data.getStream());
 			ps.setString(3, data.getData());
 			ps.setString(4, data.getDevice());
@@ -76,7 +76,7 @@ public class DataFormDao {
 		if(data == null){
 			return 0;
 		}
-		if(data.getDevice() == null || data.getStream() == null || data.getUser_id() == null){
+		if(data.getDevice() == null || data.getStream() == null || data.getUser_id() == 0){
 			return 0;
 		}
 		int i = 0;
@@ -85,7 +85,7 @@ public class DataFormDao {
 		ResultSet rs = null;
 		try {
 			ps = SQLContext.connection.prepareStatement(sql);
-			ps.setString(1, data.getUser_id());
+			ps.setInt(1, data.getUser_id());
 			ps.setString(2, data.getStream());
 			ps.setString(3, data.getDevice());
 			rs = ps.executeQuery();

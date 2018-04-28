@@ -64,6 +64,12 @@ public class MicroResponse {
 		return this;
 	}
 	
+	public MicroResponse append(int msg){
+		content.append(msg);
+		return this;
+	}
+	
+	
 
 	public void pushToClient(){
 		try {
